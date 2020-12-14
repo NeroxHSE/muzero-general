@@ -19,5 +19,8 @@ class Block(pygame.sprite.Sprite):
 
         self.rect = pygame.Rect(pos[0], pos[1], self.image.get_width(), self.image.get_height())
 
+    def get_rect(self):
+        return self.rect, self.finish_block
+
     def update(self):
         self.screen.blit(self.image, self.rect)

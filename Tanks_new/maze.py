@@ -46,6 +46,7 @@ def draw_maze(maze):
     width = len(maze[0])
     height = len(maze)
     with open('Maps/level_1.goose', 'w') as f:
+        f.truncate(0)
         print('1' * (width*2+1), file=f)
 
         for i in range(height*2):
@@ -61,15 +62,10 @@ def draw_maze(maze):
                 elif i % 2 == 0 and j % 2 != 0:
                     if not maze[i//2][j//2] & E == 0:
                         line.append('0')
-
                     else:
                         line.append('1')
                 elif i % 2 != 0 and j % 2 == 0:
                     if not maze[i//2][j//2] & S == 0:
-                        #if finish == False and i>height*1.1 and j>width*1.1:
-                            #line.append('2')
-                           # finish = True
-                        #else:
                         line.append('0')    
                     else:
                         line.append('1')

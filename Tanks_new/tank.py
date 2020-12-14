@@ -16,6 +16,10 @@ class Tank(pygame.sprite.Sprite):
         self.rotated_img = self.now_img
         self.bumped = False
 
+    def get_rect(self):
+        return self.rect
+
+
     def update(self):
         self.move_pos(pygame.key.get_pressed())
         self.screen.blit(self.rotated_img, self.rect)
@@ -31,6 +35,20 @@ class Tank(pygame.sprite.Sprite):
             self.rect.x += self.settings.speed
             self.img_rotation(270)
         elif keys[pygame.K_LEFT]:
+            self.rect.x -= self.settings.speed
+            self.img_rotation(90)
+
+    def move_by_action(self, action):
+        if action == 0:
+            self.rect.y -= self.settings.speed
+            self.img_rotation(0)
+        elif action == 1:
+            self.rect.y += self.settings.speed
+            self.img_rotation(180)
+        elif action == 2:
+            self.rect.x += self.settings.speed
+            self.img_rotation(270)
+        elif action == 3:        
             self.rect.x -= self.settings.speed
             self.img_rotation(90)
 
