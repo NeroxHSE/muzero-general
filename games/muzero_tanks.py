@@ -7,8 +7,8 @@ import torch
 #sys.path.insert(0, "muzero-general/Tanks_new")
 #sys.path.insert(0, "muzero-general/games")
 from .settings import Settings
-from game_func import GameFunc
-from abstract_game import AbstractGame
+from .game_func import GameFunc
+from .abstract_game import AbstractGame
 
 
 class MuZeroConfig:
