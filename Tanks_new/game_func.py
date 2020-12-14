@@ -10,10 +10,12 @@ import math
 
 class GameFunc:
     def __init__(self, settings, screen):
+        pygame.init()
         self.screen = screen
         self.settings = settings
         self.main_rect = pygame.Rect(settings.main_rect)
         self.blocks = pygame.sprite.Group()
+        self.clock = pygame.time.Clock()
         self.tank1 = None
         self.game_over = False
         draw_maze(maze_generation(7,6))
@@ -68,20 +70,27 @@ class GameFunc:
         else:  
             return 0
 
+    def render(self):
+        self.check_events()
+        self.update_screen()
+        self.clock.tick(self.settings.FPS)
+
     def calculate_reward(self):
         for block in self.blocks:
             block_rect, finish = block.get_rect()
             if finish == True:
                 break    
-        print(10/self.rect_distance(self.tank1.get_rect(), block_rect))
-        return 10/self.rect_distance(self.tank1.get_rect(), block_rect)
+        print(1-self.rect_distance(self.tank1.get_rect(), block_rect)/1000)
+        return 1-self.rect_distance(self.tank1.get_rect(), block_rect)/1000
 
     def get_reward(self, done):
         if not done:
             reward = self.calculate_reward()
             return reward
         else:
-            return 1
+            return 3
+
+    
 
     def reset(self):
         self.game_over = False

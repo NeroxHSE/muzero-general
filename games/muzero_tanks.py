@@ -1,10 +1,14 @@
 import datetime
 import os
-
+import pygame
 import numpy
 import torch
+
+#sys.path.insert(0, "muzero-general/Tanks_new")
+#sys.path.insert(0, "muzero-general/games")
+from settings import Settings
 from game_func import GameFunc
-from .abstract_game import AbstractGame
+from abstract_game import AbstractGame
 
 
 class MuZeroConfig:
@@ -15,7 +19,7 @@ class MuZeroConfig:
         self.max_num_gpus = 1  # Fix the maximum number of GPUs to use. It's usually faster to use a single GPU (set it to 1) if it has enough memory. None will use every GPUs available
 
         ### Game
-        self.observation_shape = (3, 3, 3)  # Dimensions of the game observation, must be 3D (channel, height, width). For a 1D array, please reshape it to (1, 1, length of array)
+        self.observation_shape = (1, 14, 15)  # Dimensions of the game observation, must be 3D (channel, height, width). For a 1D array, please reshape it to (1, 1, length of array)
         self.action_space = list(range(4))  # Fixed list of all possible actions. You should only edit the length
         self.players = list(range(1))  # List of players. You should only edit the length
         self.stacked_observations = 0  # Number of previous observations and previous actions to add to the current observation
@@ -130,52 +134,19 @@ class Game(AbstractGame):
         self.env = game
 
     def step(self, action):
-        """
-        Apply action to the game.
-        
-        Args:
-            action : action of the action_space to take.
-        Returns:
-            The new observation, the reward and a boolean if the game has ended.
-        """
         observation, reward, done = self.env.step(action)
         return observation, reward * 20, done
 
     def to_play(self):
-        """
-        Return the current player.
-        Returns:
-            The current player, it should be an element of the players list in the config. 
-        """
         return self.env.to_play()
 
     def legal_actions(self):
-        """
-        Should return the legal actions at each turn, if it is not available, it can return
-        the whole action space. At each turn, the game have to be able to handle one of returned actions.
-        
-        For complex game where calculating legal moves is too long, the idea is to define the legal actions
-        equal to the action space but to return a negative reward if the action is illegal.
-    
-        Returns:
-            An array of integers, subset of the action space.
-        """
-        return self.env.legal_actions()
+        return list(range(4))
 
     def reset(self):
-        """
-        Reset the game for a new game.
-        
-        Returns:
-            Initial observation of the game.
-        """
         return self.env.reset()
 
     def render(self):
-        """
-        Display the game observation.
-        """
         self.env.render()
-        input("Press enter to take a step ")
 
     
