@@ -2,9 +2,9 @@ import os
 import sys
 import pygame
 import numpy as np
-from block import Block
-from tank import Tank
-from maze import draw_maze, maze_generation
+from .block import Block
+from .tank import Tank
+from .maze import draw_maze, maze_generation
 import math
 
 

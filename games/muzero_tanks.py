@@ -7,7 +7,7 @@ import torch
 #sys.path.insert(0, "muzero-general/Tanks_new")
 #sys.path.insert(0, "muzero-general/games")
 from .settings import Settings
-from ..game_func import GameFunc
+from Tanks_new.game_func import GameFunc
 from .abstract_game import AbstractGame
 
 
@@ -16,7 +16,7 @@ class MuZeroConfig:
         # More information is available here: https://github.com/werner-duvaud/muzero-general/wiki/Hyperparameter-Optimization
 
         self.seed = 0  # Seed for numpy, torch and the game
-        self.max_num_gpus = 1  # Fix the maximum number of GPUs to use. It's usually faster to use a single GPU (set it to 1) if it has enough memory. None will use every GPUs available
+        self.max_num_gpus = 0  # Fix the maximum number of GPUs to use. It's usually faster to use a single GPU (set it to 1) if it has enough memory. None will use every GPUs available
 
         ### Game
         self.observation_shape = (1, 14, 15)  # Dimensions of the game observation, must be 3D (channel, height, width). For a 1D array, please reshape it to (1, 1, length of array)
@@ -32,9 +32,9 @@ class MuZeroConfig:
 
         ### Self-Play
         self.num_workers = 1  # Number of simultaneous threads/workers self-playing to feed the replay buffer
-        self.selfplay_on_gpu = True
+        self.selfplay_on_gpu = False
         self.max_moves = 1000  # Maximum number of moves if game is not finished before
-        self.num_simulations = 25  # Number of future moves self-simulated
+        self.num_simulations = 5  # Number of future moves self-simulated
         self.discount = 1  # Chronological discount of the reward
         self.temperature_threshold = None  # Number of moves before dropping the temperature given by visit_softmax_temperature_fn to 0 (ie selecting the best action). If None, visit_softmax_temperature_fn is used every time
 

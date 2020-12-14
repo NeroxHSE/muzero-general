@@ -1,5 +1,5 @@
 import pygame
-import game_func as gff
+#import game_func as gff
 
 
 class Tank(pygame.sprite.Sprite):
