@@ -125,7 +125,7 @@ class GameFunc:
         pygame.display.flip()
 
     def map_reader_txt(self):
-        path = 'Maps/level_1.goose'
+        path = 'Tanks_new/Maps/level_1.goose'
         txt_map = []
         matrix_map = None
 
@@ -153,7 +153,7 @@ class GameFunc:
         for i in range(len(rows)-1):
             matrix.append(list(map(int, rows[i])))
         
-        return np.array(matrix, dtype="int32")
+        return np.reshape(np.array(matrix, dtype="int32"), (1,14,15))
 
     def check_collide_tb(self):
         collide = pygame.sprite.spritecollideany(self.tank1, self.blocks)

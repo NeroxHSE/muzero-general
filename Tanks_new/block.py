@@ -9,11 +9,11 @@ class Block(pygame.sprite.Sprite):
         self.finish_block = False
 
         if block == '1':
-            self.image = pygame.image.load('Models/Blocks/bricks.png').convert_alpha()
+            self.image = pygame.image.load('Tanks_new/Models/Blocks/bricks.png').convert_alpha()
             self.image = pygame.transform.scale(self.image, (16 * 4, 16 * 4))
 
         elif block == '2':
-            self.image = pygame.image.load('Models/Blocks/finish.png').convert_alpha()
+            self.image = pygame.image.load('Tanks_new/Models/Blocks/finish.png').convert_alpha()
             self.image = pygame.transform.scale(self.image, (16 * 4, 16 * 4))  
             self.finish_block = True  
 

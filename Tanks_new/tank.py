@@ -8,7 +8,7 @@ class Tank(pygame.sprite.Sprite):
         self.settings = settings
         self.screen = screen
         self.pos = pos
-        self.now_img = pygame.transform.scale(pygame.image.load('Models/Players/player.png').convert_alpha(), (8 * 4, 8 * 4))
+        self.now_img = pygame.transform.scale(pygame.image.load('Tanks_new/Models/Players/player.png').convert_alpha(), (8 * 4, 8 * 4))
         
         self.rect = pygame.Rect(pos[0], pos[1], self.now_img.get_width(), self.now_img.get_height())
         

@@ -45,7 +45,7 @@ def draw_maze(maze):
     finish = False
     width = len(maze[0])
     height = len(maze)
-    with open('Maps/level_1.goose', 'w') as f:
+    with open('Tanks_new/Maps/level_1.goose', 'w') as f:
         f.truncate(0)
         print('1' * (width*2+1), file=f)
 
