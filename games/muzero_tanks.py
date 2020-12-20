@@ -15,8 +15,8 @@ class MuZeroConfig:
     def __init__(self):
         # More information is available here: https://github.com/werner-duvaud/muzero-general/wiki/Hyperparameter-Optimization
 
-        self.seed = 0  # Seed for numpy, torch and the game
-        self.max_num_gpus = 0  # Fix the maximum number of GPUs to use. It's usually faster to use a single GPU (set it to 1) if it has enough memory. None will use every GPUs available
+        self.seed = 42  # Seed for numpy, torch and the game
+        self.max_num_gpus = 2  # Fix the maximum number of GPUs to use. It's usually faster to use a single GPU (set it to 1) if it has enough memory. None will use every GPUs available
 
         ### Game
         self.observation_shape = (1, 14, 15)  # Dimensions of the game observation, must be 3D (channel, height, width). For a 1D array, please reshape it to (1, 1, length of array)
@@ -31,10 +31,10 @@ class MuZeroConfig:
 
 
         ### Self-Play
-        self.num_workers = 1  # Number of simultaneous threads/workers self-playing to feed the replay buffer
-        self.selfplay_on_gpu = False
+        self.num_workers = 2  # Number of simultaneous threads/workers self-playing to feed the replay buffer
+        self.selfplay_on_gpu = True
         self.max_moves = 1000  # Maximum number of moves if game is not finished before
-        self.num_simulations = 5  # Number of future moves self-simulated
+        self.num_simulations = 100  # Number of future moves self-simulated
         self.discount = 1  # Chronological discount of the reward
         self.temperature_threshold = None  # Number of moves before dropping the temperature given by visit_softmax_temperature_fn to 0 (ie selecting the best action). If None, visit_softmax_temperature_fn is used every time
 
@@ -102,7 +102,7 @@ class MuZeroConfig:
 
         # Reanalyze (See paper appendix Reanalyse)
         self.use_last_model_value = True  # Use the last model to provide a fresher, stable n-step value (See paper appendix Reanalyze)
-        self.reanalyse_on_gpu = False
+        self.reanalyse_on_gpu = True
 
 
 
