@@ -18,9 +18,11 @@ class GameFunc:
         self.clock = pygame.time.Clock()
         self.tank1 = None
         self.game_over = False
+        self.last = None
         draw_maze(maze_generation(7,6))
         self.map_in_txt = self.map_reader_txt()
         self.get_observation()
+        self.collisions_happened = 0
 
 
     def to_play(self):
@@ -76,19 +78,39 @@ class GameFunc:
         self.clock.tick(self.settings.FPS)
 
     def calculate_reward(self):
+
+        reward = 0
+        #if self.tank1.get_collision() > self.collisions_happened:
+        #    self.collisions_happened = self.tank1.get_collision()
+        #    reward-=1
+
         for block in self.blocks:
             block_rect, finish = block.get_rect()
             if finish == True:
-                break    
-        print(1-self.rect_distance(self.tank1.get_rect(), block_rect)/1000)
-        return 1-self.rect_distance(self.tank1.get_rect(), block_rect)/1000
+                break
+        now = self.rect_distance(self.tank1.get_rect(), block_rect)
+        if self.last == None:
+            self.last = now
+            reward-=1
+            return reward
+        if self.last - now >= 0:
+            self.last = now
+            reward+=1
+            return reward
+        else:
+            reward-=1
+            return reward
+
+        
+        #print(1-self.rect_distance(self.tank1.get_rect(), block_rect)/1000)
+        #return 1-self.rect_distance(self.tank1.get_rect(), block_rect)/1000
 
     def get_reward(self, done):
         if not done:
             reward = self.calculate_reward()
             return reward
         else:
-            return 3
+            return 100
 
     
 
@@ -96,12 +118,13 @@ class GameFunc:
         self.game_over = False
         self.blocks = pygame.sprite.Group()
         self.tank1 = None
+        self.collisions_happened = 0 
         draw_maze(maze_generation(7,6))
         self.map_in_txt = self.map_reader_txt()
         return self.get_observation()
 
     def get_observation(self): #возвращает карту с позицией танка
-        print(self.map_in_txt, np.shape(self.map_in_txt))
+        #print(self.map_in_txt, np.shape(self.map_in_txt))
         return self.map_in_txt
 
     def check_events(self):
@@ -144,7 +167,7 @@ class GameFunc:
                     block = Block((x * 64 + 32, y * 64 + 32), tile, self.screen)
                     self.blocks.add(block) 
                 if tile is '3':
-                    self.tank1 = Tank((x * 64 + 48, y * 64 + 48), self.settings, self.screen )
+                    self.tank1 = Tank((x * 64 + 32, y * 64 + 32), self.settings, self.screen )
                 x += 1
             y += 1
 
@@ -164,6 +187,7 @@ class GameFunc:
         if collide:
             if type(collide) == Block:
                 self.tank1.bump_block()
+                self.tank1.collision_counter()
                 
                 
                   

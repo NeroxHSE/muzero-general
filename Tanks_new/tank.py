@@ -8,13 +8,20 @@ class Tank(pygame.sprite.Sprite):
         self.settings = settings
         self.screen = screen
         self.pos = pos
-        self.now_img = pygame.transform.scale(pygame.image.load('Tanks_new/Models/Players/player.png').convert_alpha(), (8 * 4, 8 * 4))
+        self.now_img = pygame.transform.scale(pygame.image.load('Tanks_new/Models/Players/player.png').convert_alpha(), (16 * 4, 16 * 4))
         
         self.rect = pygame.Rect(pos[0], pos[1], self.now_img.get_width(), self.now_img.get_height())
         
         self.rot = 0
         self.rotated_img = self.now_img
         self.bumped = False
+        self.collisions = 0
+
+    def collision_counter(self):
+        self.collisions+=1
+    
+    def get_collision(self):
+        return self.collisions
 
     def get_rect(self):
         return self.rect

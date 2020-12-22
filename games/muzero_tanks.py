@@ -15,8 +15,8 @@ class MuZeroConfig:
     def __init__(self):
         # More information is available here: https://github.com/werner-duvaud/muzero-general/wiki/Hyperparameter-Optimization
 
-        self.seed = 42  # Seed for numpy, torch and the game
-        self.max_num_gpus = 2  # Fix the maximum number of GPUs to use. It's usually faster to use a single GPU (set it to 1) if it has enough memory. None will use every GPUs available
+        self.seed = 0  # Seed for numpy, torch and the game
+        self.max_num_gpus = 1  # Fix the maximum number of GPUs to use. It's usually faster to use a single GPU (set it to 1) if it has enough memory. None will use every GPUs available
 
         ### Game
         self.observation_shape = (1, 14, 15)  # Dimensions of the game observation, must be 3D (channel, height, width). For a 1D array, please reshape it to (1, 1, length of array)
@@ -32,9 +32,9 @@ class MuZeroConfig:
 
         ### Self-Play
         self.num_workers = 2  # Number of simultaneous threads/workers self-playing to feed the replay buffer
-        self.selfplay_on_gpu = True
-        self.max_moves = 1000  # Maximum number of moves if game is not finished before
-        self.num_simulations = 100  # Number of future moves self-simulated
+        self.selfplay_on_gpu = False
+        self.max_moves = 1500  # Maximum number of moves if game is not finished before
+        self.num_simulations = 50  # Number of future moves self-simulated
         self.discount = 1  # Chronological discount of the reward
         self.temperature_threshold = None  # Number of moves before dropping the temperature given by visit_softmax_temperature_fn to 0 (ie selecting the best action). If None, visit_softmax_temperature_fn is used every time
 
@@ -76,13 +76,13 @@ class MuZeroConfig:
         ### Training
         self.results_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "../results", os.path.basename(__file__)[:-3], datetime.datetime.now().strftime("%Y-%m-%d--%H-%M-%S"))  # Path to store the model weights and TensorBoard logs
         self.save_model = True  # Save the checkpoint in results_path as model.checkpoint
-        self.training_steps = 100  # Total number of training steps (ie weights update according to a batch)
+        self.training_steps = 10000  # Total number of training steps (ie weights update according to a batch)
         self.batch_size = 64  # Number of parts of games to train on at each training step
         self.checkpoint_interval = 10  # Number of training steps before using the model for self-playing
         self.value_loss_weight = 0.25  # Scale the value loss to avoid overfitting of the value function, paper recommends 0.25 (See paper appendix Reanalyze)
         self.train_on_gpu = torch.cuda.is_available()  # Train on GPU if available
 
-        self.optimizer = "Adam"  # "Adam" or "SGD". Paper uses SGD
+        self.optimizer = "SGD"  # "Adam" or "SGD". Paper uses SGD
         self.weight_decay = 1e-4  # L2 weights regularization
         self.momentum = 0.9  # Used only if optimizer is SGD
 
@@ -102,7 +102,7 @@ class MuZeroConfig:
 
         # Reanalyze (See paper appendix Reanalyse)
         self.use_last_model_value = True  # Use the last model to provide a fresher, stable n-step value (See paper appendix Reanalyze)
-        self.reanalyse_on_gpu = True
+        self.reanalyse_on_gpu = False
 
 
 
@@ -135,7 +135,7 @@ class Game(AbstractGame):
 
     def step(self, action):
         observation, reward, done = self.env.step(action)
-        return observation, reward * 20, done
+        return observation, reward, done
 
     def to_play(self):
         return self.env.to_play()

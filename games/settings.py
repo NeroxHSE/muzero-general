@@ -9,5 +9,5 @@ class Settings:
         self.anim_frame = 6
         self.scoreboard_bg = (100, 100, 100)
         self.battlefield_bg = (0, 0, 0)
-        self.speed = 10
+        self.speed = 64
 
