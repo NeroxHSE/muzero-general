@@ -6,6 +6,9 @@ from .block import Block
 from .tank import Tank
 from .maze import draw_maze, maze_generation
 import math
+import matplotlib.pyplot as plt
+import cv2
+from PIL import Image
 
 
 class GameFunc:
@@ -125,7 +128,18 @@ class GameFunc:
 
     def get_observation(self): #возвращает карту с позицией танка
         #print(self.map_in_txt, np.shape(self.map_in_txt))
-        return self.map_in_txt
+       # print(np.shape())
+        #fig, ax = plt.subplots()
+
+        #plt.imshow(pygame.surfarray.array3d(self.screen))
+        #plt.show(block=False)
+        #np.reshape(pygame.surfarray.array3d(self.screen), (3, 1096, 960))
+        scr = pygame.surfarray.array3d(self.screen)#.transpose(2,1,0)
+
+        img = Image.fromarray(scr)
+
+        return np.array(img.resize((96,96))).transpose(2,1,0)
+
 
     def check_events(self):
         for event in pygame.event.get():
@@ -139,7 +153,7 @@ class GameFunc:
                     self.calculate_reward()      
 
     def update_screen(self):
-        self.screen.fill(self.settings.scoreboard_bg)
+       # self.screen.fill(self.settings.scoreboard_bg)
         self.screen.fill(self.settings.battlefield_bg, self.main_rect)
 
         self.blocks.update()

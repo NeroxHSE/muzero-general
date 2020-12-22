@@ -2,8 +2,8 @@ import pygame
 
 class Settings:
     def __init__(self):
-        self.screen_sizes = (1280, 960)
-        self.main_rect = pygame.Rect(32, 32, 1024, 896)
+        self.screen_sizes = (1096, 960)
+        self.main_rect = pygame.Rect(32, 32, 1096, 960)
         self.multiply_size = 4
         self.FPS = 60
         self.anim_frame = 6
